@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "testLib.C": "cpp"
+        "testLib.C": "cpp",
+        "common.h": "c",
+        "stdint.h": "c"
     }
 }

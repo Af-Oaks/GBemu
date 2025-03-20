@@ -17,3 +17,7 @@ typedef uint64_t u64;
 #define BETWEEN(a, b, c) ((a >= b) && (a <= c))
 
 void delay(u32 ms);
+
+#define NO_IMPL() { fprintf(stderr,"NOT IMPLEMENTED YET!\n"); exit(-5);}
+
+#define UNEXPECTED_ERROR(from) { fprintf(stderr,"UNEXPECTED_ERROR! from %s\n",from); exit(-5);}
