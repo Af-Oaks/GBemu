@@ -34,7 +34,8 @@ static void proc_jp(cpu_context *ctx){
 }
 
 static void proc_ld(cpu_context *ctx){
-
+    printf("LOAD INSTRUCTION!\n");
+    //aq nesse carai
 }
 
 static void proc_inc(cpu_context *ctx){
