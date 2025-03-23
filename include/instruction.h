@@ -14,7 +14,6 @@
 // r8  means 8 bit signed data, which are added to program counter
 
 typedef enum{
-    AM_NONE,//default empty
     AM_IMP,
     AM_R_D16,
     AM_R_R,
@@ -62,14 +61,52 @@ typedef enum
     IN_NONE,//default empty
     IN_NOP,
     IN_LD,
-    IN_DI,
     IN_INC,
     IN_DEC,
-    IN_JP,
-    IN_OR,
-    IN_XOR,
+    IN_RLCA,
+    IN_ADD,
+    IN_RRCA,
+    IN_STOP,
+    IN_RLA,
+    IN_JR,
+    IN_RRA,
+    IN_DAA,
+    IN_CPL,
+    IN_SCF,
+    IN_CCF,
+    IN_HALT,
+    IN_ADC,
+    IN_SUB,
+    IN_SBC,
     IN_AND,
-    //special instruc
+    IN_XOR,
+    IN_OR,
+    IN_CP,
+    IN_POP,
+    IN_JP,
+    IN_PUSH,
+    IN_RET,
+    IN_CB,
+    IN_CALL,
+    IN_RETI,
+    IN_LDH,
+    IN_JPHL,
+    IN_DI,
+    IN_EI,
+    IN_RST,
+    IN_ERR,
+    //CB instructions...
+    IN_RLC, 
+    IN_RRC,
+    IN_RL, 
+    IN_RR,
+    IN_SLA, 
+    IN_SRA,
+    IN_SWAP, 
+    IN_SRL,
+    IN_BIT, 
+    IN_RES, 
+    IN_SET
 
 } in_type;
 
