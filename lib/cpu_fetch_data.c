@@ -42,6 +42,55 @@ void fetch_data(){
         return;
     }
 
+    case AM_MR_R:{
+        ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);
+        ctx.mem_dest = cpu_read_reg(ctx.current_inst->reg_1);
+        ctx.dest_is_mem = true;
+        if(ctx.current_inst->reg_1 == RT_C){
+            ctx.mem_dest |= 0xFF00;
+        }
+        return;
+    }
+
+    case AM_R_MR:{
+        u16 addres = cpu_read_reg(ctx.current_inst->reg_2);
+        ctx.dest_is_mem = true;
+        if(ctx.current_inst->reg_2 == RT_C){
+            ctx.mem_dest |= 0xFF00;
+        }
+        ctx.fetch_data = bus_read(addres);
+
+        return;
+    }
+
+    case AM_HLI_R:{
+        ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);
+        ctx.mem_dest = cpu_read_reg(ctx.current_inst->reg_1);
+        ctx.dest_is_mem = true;
+        ctx.regs.l++;//TODO: verify overflow to increase from reg H if need
+        //verify if a need to change the mem_dest
+        return;
+    }
+    case AM_R_HLI:{
+        ctx.fetch_data = bus_read(cpu_read_reg(ctx.current_inst->reg_2));
+        emu_cycles(1);
+        ctx.regs.l++;//TODO: verify overflow to increase from reg H if need
+        //verify if a need to change the mem_dest
+        return;
+    }
+
+    case AM_HLD_R:{
+        ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);
+        ctx.mem_dest = cpu_read_reg(ctx.current_inst->reg_1);
+        ctx.dest_is_mem = true;
+        ctx.regs.l--;//TODO: verify underflow to decrease from reg H if need
+        //verify if a need to change the mem_dest
+        return;
+    }
+
+
+
+
     default:
         printf("Uknow address mode %d\n", ctx.current_inst->mode);
         UNEXPECTED_ERROR("fetch_data in cpu");
