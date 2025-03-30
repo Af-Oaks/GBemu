@@ -93,6 +93,6 @@ void fetch_data(){
 
     default:
         printf("Uknow address mode %d\n", ctx.current_inst->mode);
-        UNEXPECTED_ERROR("fetch_data in cpu");
+        UNEXPECTED_ERROR("fetch_data in cpu_fetche_data.c");
     }
 }

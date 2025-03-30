@@ -51,8 +51,8 @@ void cpu_write_reg(reg_type rt, u16 value) {
     }
 }
 
-void cpu_set_reg8(reg_type rt, u8 val) {
-    switch(rt) {
+void cpu_set_reg_8(reg_type type, u8 val) {
+    switch(type) {
         case RT_A: ctx.regs.a = val & 0xFF; break;
         case RT_F: ctx.regs.f = val & 0xFF; break;
         case RT_B: ctx.regs.b = val & 0xFF; break;
@@ -63,7 +63,28 @@ void cpu_set_reg8(reg_type rt, u8 val) {
         case RT_L: ctx.regs.l = val & 0xFF; break;
         case RT_HL: bus_write(cpu_read_reg(RT_HL), val); break;
         default:
-            printf("**ERR INVALID REG8: %d\n", rt);
-            exit(-12);
+            printf("invalid register type %d\n", type);
+            UNEXPECTED_ERROR("cpu_set_reg_16");
+    }
+}
+
+void cpu_set_reg_16(reg_type type, u16 value){
+    switch(type){
+        case RT_A: ctx.regs.a = value & 0xFF; break;
+        case RT_F: ctx.regs.f = value & 0xFF; break;
+        case RT_B: ctx.regs.b = value & 0xFF; break;
+        case RT_C: ctx.regs.c = value & 0xFF; break;
+        case RT_D: ctx.regs.d = value & 0xFF; break;
+        case RT_E: ctx.regs.e = value & 0xFF; break;
+        case RT_H: ctx.regs.h = value & 0xFF; break;
+        case RT_L: ctx.regs.l = value & 0xFF; break;
+
+        case RT_AF: *((u16 *)&ctx.regs.a) = reverse(value); break;
+        case RT_BC: *((u16 *)&ctx.regs.b) = reverse(value); break;
+        case RT_DE: *((u16 *)&ctx.regs.d) = reverse(value); break;
+        case RT_HL: *((u16 *)&ctx.regs.h) = reverse(value); break;
+        
+        default:
+
     }
 }

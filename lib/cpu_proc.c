@@ -15,6 +15,12 @@ static bool check_cond(cpu_context *ctx){
         default: return false;
     }
 }
+static bool is_16_bit(reg_type type){
+    if(type >= RT_AF){
+        return true;
+    }
+    return false;
+}
 
 
 static void proc_none(cpu_context *ctx){
@@ -34,8 +40,20 @@ static void proc_jp(cpu_context *ctx){
 }
 
 static void proc_ld(cpu_context *ctx){
-    printf("LOAD INSTRUCTION!\n");
-    //aq nesse carai
+    printf("LD instruction!\n");
+    if(ctx->dest_is_mem){
+        if(is_16_bit(ctx->current_inst->reg_2)){
+            emu_cycles(1);
+            bus_write_16(ctx->mem_dest, ctx->fetch_data);
+        }
+        else{
+            bus_write(ctx->mem_dest, ctx->fetch_data);
+        }
+        emu_cycles(1);
+        return;
+    }
+    //default
+    cpu_set_reg_16(ctx->current_inst->reg_1, ctx->fetch_data);
 }
 
 static void proc_inc(cpu_context *ctx){
@@ -50,10 +68,25 @@ static void proc_stop(cpu_context *ctx) {
     fprintf(stderr, "STOPPING!\n");
 }
 
+static void goto_addr(cpu_context *ctx, u16 addr, bool pushpc) {
+    if (check_cond(ctx)) {
+        ctx->regs.pc = addr;
+        emu_cycles(1);
+    }
+}
+
+static void proc_jr(cpu_context *ctx) {
+    int8_t rel = (int8_t)(ctx->fetch_data & 0xFF);
+    u16 addr = ctx->regs.pc + rel;
+    goto_addr(ctx, addr, false);
+    printf("JR INSTRUCIDIONT addrs = %04x , regs.pc = %04x !!!\n", addr,ctx->regs.pc);
+}
+
 static IN_PROC processors[] = {
     [IN_NONE] = proc_none,
     [IN_NOP] = proc_nop,
     [IN_JP] = proc_jp,
+    [IN_JR] = proc_jr,
     [IN_LD] = proc_ld,
     [IN_INC] = proc_inc,
     [IN_DEC] = proc_dec,

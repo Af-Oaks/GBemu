@@ -25,7 +25,7 @@ u8 bus_read(u16 address){
         NO_IMPL();
     }
     else if(address < 0xC000){ //SRAM
-        NO_IMPL();
+        return cart_read(address);
     }
     else if(address < 0xE000){ // WRAM
         NO_IMPL();
@@ -87,5 +87,41 @@ void bus_write(u16 address, u8 value){
     else{
         NO_IMPL();
     }
+}
 
+void bus_write_16(u16 address, u16 value){
+
+    if(address < 0x8000){// ROM BANK
+        NO_IMPL();
+    }
+    else if(address < 0xA000){ // VRAM
+        NO_IMPL();
+    }
+    else if(address < 0xC000){ //SRAM
+        NO_IMPL();
+    }
+    else if(address < 0xE000){ // WRAM
+        NO_IMPL();
+    }
+    else if(address < 0xFE00){ // ECHORAM
+        return 0;
+    }
+    else if(address < 0xFEA0){ // OAM
+        NO_IMPL();
+    }
+    else if(address < 0xFF00){ // NOT USABLE
+        return 0;
+    }
+    else if(address < 0xFF80){ // I/0 REGISTER
+        NO_IMPL();
+    }
+    else if(address < 0xFFFF){ // HIGH RAM
+        NO_IMPL();
+    }
+    else if(address == 0xFFFF){ // IE register
+        NO_IMPL();
+    }
+    else{
+        NO_IMPL();
+    }
 }

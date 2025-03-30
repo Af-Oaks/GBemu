@@ -27,7 +27,7 @@ void fetch_data();
 static void execute_instruction(){
     IN_PROC proc = instruction_get_process(ctx.current_inst->type);
     if(proc == NULL){
-        printf("null processor\n");
+        printf("null processor | instruction %d\n", ctx.current_inst->type);
         UNEXPECTED_ERROR("execute_instruction in cpu");
     }
     proc(&ctx);
