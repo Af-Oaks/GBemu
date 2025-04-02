@@ -30,6 +30,9 @@ typedef struct
     u8 current_opcode;
     instruction *current_inst;
 
+    //flagControls
+    bool IME;
+
     // state of cpu
     bool halted;
     bool stepping;

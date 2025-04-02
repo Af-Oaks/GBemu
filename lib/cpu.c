@@ -36,9 +36,10 @@ static void execute_instruction(){
 
 bool cpu_step() {
     if(!ctx.halted){
+        printf("----------------\n ctx.pc = %04X !\n",ctx.regs.pc);
         fetch_instuction();
-        fetch_data();
         printf("ANTES - PC: %04X, OP: %02X, INST: %d\n", ctx.regs.pc, ctx.current_opcode, ctx.current_inst->type);
+        fetch_data();
         execute_instruction();
         printf("DEPOIS - PC: %04X, OP: %02X, INST: %d\n", ctx.regs.pc, ctx.current_opcode, ctx.current_inst->type);
     }

@@ -33,6 +33,7 @@ static void proc_nop(cpu_context *ctx){
 }
 
 static void proc_jp(cpu_context *ctx){
+    printf("PROC_JP INSTR\n");
     if(check_cond(ctx)){
         ctx->regs.pc = ctx->fetch_data;
         emu_cycles(1);
@@ -69,6 +70,7 @@ static void proc_stop(cpu_context *ctx) {
 }
 
 static void goto_addr(cpu_context *ctx, u16 addr, bool pushpc) {
+    printf("GOTO_ADDR INSTR\n");
     if (check_cond(ctx)) {
         ctx->regs.pc = addr;
         emu_cycles(1);
@@ -82,6 +84,11 @@ static void proc_jr(cpu_context *ctx) {
     printf("JR INSTRUCIDIONT addrs = %04x , regs.pc = %04x !!!\n", addr,ctx->regs.pc);
 }
 
+static void proc_di(cpu_context *ctx) {
+    ctx->IME = false;
+    printf("DI INSTR , regs.pc = %04x !!!\n",ctx->regs.pc);
+}
+
 static IN_PROC processors[] = {
     [IN_NONE] = proc_none,
     [IN_NOP] = proc_nop,
@@ -91,6 +98,7 @@ static IN_PROC processors[] = {
     [IN_INC] = proc_inc,
     [IN_DEC] = proc_dec,
     [IN_STOP] = proc_stop,
+    [IN_DI] = proc_di,
 };
 
 IN_PROC instruction_get_process(in_type type){

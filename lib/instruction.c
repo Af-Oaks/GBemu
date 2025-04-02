@@ -231,7 +231,7 @@ instruction instructions[0x100] = {
 
 
 instruction *instruction_by_opcode(u8 opcode) {
-    printf("getting inst by opcode %x, type = %x\n",opcode,instructions[opcode].type);
+    printf("getting inst by opcode %x(%d), type = %x\n",opcode,opcode,instructions[opcode].type);
     if(opcode > 0xFF || instructions[opcode].type == IN_NONE) {
         return NULL;
     }
