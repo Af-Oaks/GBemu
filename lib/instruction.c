@@ -210,8 +210,11 @@ instruction instructions[0x100] = {
     [0xC3] = {IN_JP, AM_D16},
     [0xCF] = {IN_RST, AM_IMP, RT_NONE, RT_NONE, CT_NONE, 0x08},
     //0xDX instructions
+    [0xD6] = {IN_SUB,AM_R_D8,RT_A},
     [0xDF] = {IN_RST, AM_IMP, RT_NONE, RT_NONE, CT_NONE, 0x18},
     //0xEX instructions
+    [0xE0] = {IN_LDH, AM_A8_R, RT_A},
+    [0xEA] = {IN_LD, AM_A16_R, RT_A},
     [0xEF] = {IN_RST, AM_IMP, RT_NONE, RT_NONE, CT_NONE, 0x28},
     //0xFX instructions
     [0xF0] = {IN_LDH, AM_R_A8, RT_A},
@@ -231,7 +234,7 @@ instruction instructions[0x100] = {
 
 
 instruction *instruction_by_opcode(u8 opcode) {
-    printf("getting inst by opcode %x(%d), type = %x\n",opcode,opcode,instructions[opcode].type);
+    printf("getting inst by opcode %x, type = %x\n",opcode,instructions[opcode].type);
     if(opcode > 0xFF || instructions[opcode].type == IN_NONE) {
         return NULL;
     }

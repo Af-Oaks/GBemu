@@ -19,5 +19,6 @@ typedef uint64_t u64;
 void delay(u32 ms);
 
 #define NO_IMPL() { fprintf(stderr,"NOT IMPLEMENTED YET!\n"); exit(-5);}
+#define NO_IMPLFROM(from) { fprintf(stderr,"NOT IMPLEMENTED YET = %s!\n",from); exit(-5);}
 
 #define UNEXPECTED_ERROR(from) { fprintf(stderr,"UNEXPECTED_ERROR! from %s\n",from); exit(-5);}

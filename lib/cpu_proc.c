@@ -58,15 +58,16 @@ static void proc_ld(cpu_context *ctx){
 }
 
 static void proc_inc(cpu_context *ctx){
-    printf("INC INSTRUCTION!\n");
+    printf("INC INSTRUCTION NOT IMPL!\n");
 }
 
 static void proc_dec(cpu_context *ctx){
-    printf("DEC INSTRUCTION!\n");
+    printf("DEC INSTRUCTION NOT IMPL!\n");
 }
 
 static void proc_stop(cpu_context *ctx) {
     fprintf(stderr, "STOPPING!\n");
+    exit(1);
 }
 
 static void goto_addr(cpu_context *ctx, u16 addr, bool pushpc) {
@@ -89,6 +90,17 @@ static void proc_di(cpu_context *ctx) {
     printf("DI INSTR , regs.pc = %04x !!!\n",ctx->regs.pc);
 }
 
+static void proc_sub(cpu_context *ctx){
+    u8 result = ctx->regs.a - ctx->fetch_data;
+    printf("SUB INST result: %02X = reg_A(%02X) - N8(%04X) ",result,ctx->regs.a,ctx->fetch_data);
+    cpu_set_reg_8(RT_A,result);
+    printf("after = %02X\n",ctx->regs.a);
+}
+
+static void proc_ldh(cpu_context *ctx){
+    printf("LDH INSTR NOT IMPL\n");
+}
+
 static IN_PROC processors[] = {
     [IN_NONE] = proc_none,
     [IN_NOP] = proc_nop,
@@ -99,6 +111,8 @@ static IN_PROC processors[] = {
     [IN_DEC] = proc_dec,
     [IN_STOP] = proc_stop,
     [IN_DI] = proc_di,
+    [IN_SUB] = proc_sub,
+    [IN_LDH] = proc_ldh
 };
 
 IN_PROC instruction_get_process(in_type type){
