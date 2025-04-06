@@ -88,11 +88,20 @@ void fetch_data(){
         return;
     }
 
-    case AM_A8_R:
+    case AM_A8_R:{
+        ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);//why reg 2 ?
+        ctx.mem_dest = bus_read(ctx.regs.pc) | 0xFF00;//This is right? 16 bit?
+        ctx.dest_is_mem = true;
+        ctx.regs.pc++;
+        emu_cycles(1);
+        return; 
+    }
     case AM_A16_R:{
         ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_1);
-        ctx.mem_dest = bus_read(ctx.regs.pc);//This is right? 16 bit?
+        ctx.mem_dest = bus_read(ctx.regs.pc) | 0xFF00;//This is right? 16 bit?
         ctx.dest_is_mem = true;
+        ctx.regs.pc++;
+        emu_cycles(1);
         return; 
     }
 

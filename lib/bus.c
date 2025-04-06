@@ -76,7 +76,7 @@ void bus_write(u16 address, u8 value){
         return 0;
     }
     else if(address < 0xFF80){ // I/0 REGISTER
-        NO_IMPLFROM("WRITE from bus.c I/0");
+        io_write(address,value);
     }
     else if(address < 0xFFFF){ // HIGH RAM
         NO_IMPLFROM("WRITE from bus.c HIHG RAM");
