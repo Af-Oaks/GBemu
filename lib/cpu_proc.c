@@ -98,12 +98,12 @@ static void proc_sub(cpu_context *ctx){
 }
 
 static void proc_ldh(cpu_context *ctx){
+    printf("LDH INSTR addr(%04X)!!\n",ctx->mem_dest | ctx->regs.a);
     if(ctx->current_inst->reg_1 == RT_A){
         cpu_set_reg_8(RT_A, bus_read(0xFF00 | ctx->fetch_data));
     }else{
         bus_write(ctx->mem_dest | ctx->regs.a);
     }
-    printf("LDH INSTR !!\n");
 }
 
 static IN_PROC processors[] = {

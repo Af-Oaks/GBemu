@@ -17,7 +17,7 @@
 
 
 u8 bus_read(u16 address){
-
+    printf("BUS READ ADDRES = %04X\n",address);
     if(address < 0x8000){// ROM BANK
         return cart_read(address);
     }
@@ -40,7 +40,7 @@ u8 bus_read(u16 address){
         return 0;
     }
     else if(address < 0xFF80){ // I/0 REGISTER
-        NO_IMPLFROM("READ from busc.c I/0");
+        return io_read(address);
     }
     else if(address < 0xFFFF){ // HIGH RAM
         NO_IMPLFROM("READ from bus.c HIGH RAM");
