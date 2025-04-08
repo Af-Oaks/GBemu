@@ -2,7 +2,6 @@
 #include <timer.h>
 #include <cpu.h>
 
-
 u8 io_read(u16 address){
     printf("bus_read(%04X)\n", address);
     if (address == 0xFF00) {

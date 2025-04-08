@@ -33,7 +33,6 @@ static void execute_instruction(){
     proc(&ctx);
 }
 
-
 bool cpu_step() {
     if(!ctx.halted){
         printf("----------------\n ctx.pc = %04X !\n",ctx.regs.pc);

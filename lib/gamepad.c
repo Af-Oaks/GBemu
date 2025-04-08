@@ -3,13 +3,14 @@
 static Gamepad gamepad;
 
 static void gamepad_state(){
-    printf("u8 gamepdas state =(%04X)\n",(0xC0 &&
-        gamepad.right_or_a &&
-        gamepad.left_or_b &&
-        gamepad.up_or_select &&
-        gamepad.down_or_start &&
-        ((u8)gamepad.select_buttons << 4) &&
-        ((u8)gamepad.select_dpad << 5 )));
+    u8 stategame = (
+        gamepad.right_or_a |
+        gamepad.left_or_b |
+        gamepad.up_or_select |
+        gamepad.down_or_start |
+        ((u8)gamepad.select_buttons << 4) |
+        ((u8)gamepad.select_dpad << 5 ));
+    printf("u8 gamepdas state =(%02X) | %02X = %02X \n",stategame,0xC0,stategame | 0xC0);
 }
 
 void  gamepad_set_sel(u8 value){
@@ -24,13 +25,21 @@ void  gamepad_set_sel(u8 value){
     gamepad_state();
 }
 
+bool is_select_buttons(){
+    return gamepad.select_buttons;
+}
+    
+bool is_select_dpad(){
+    return gamepad.select_dpad;
+}
+
 u8 gamepad_read(){
-    return (0xC0 &&
-        gamepad.right_or_a &&
-        gamepad.left_or_b &&
-        gamepad.up_or_select &&
-        gamepad.down_or_start &&
-        ((u8)gamepad.select_buttons << 4) &&
+    return (0xC0 |
+        gamepad.right_or_a |
+        gamepad.left_or_b |
+        gamepad.up_or_select |
+        gamepad.down_or_start |
+        ((u8)gamepad.select_buttons << 4) |
         ((u8)gamepad.select_dpad << 5 )
     );
 }
