@@ -68,7 +68,7 @@ instruction instructions[0x100] = {
     [0x3B] = {IN_DEC, AM_R, RT_SP},
     [0x3C] = {IN_INC, AM_R, RT_A},
     [0x3D] = {IN_DEC, AM_R, RT_A},
-    [0x3E] = {IN_LD, AM_R_D8, RT_A},
+    [0x3E] = {IN_LD, AM_R_D8, RT_A, RT_NONE},
     [0x3F] = {IN_CCF},
     //0x4X instructions
     [0x40] = {IN_LD, AM_R_R, RT_B, RT_B},

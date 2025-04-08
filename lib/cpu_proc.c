@@ -56,7 +56,7 @@ static void proc_ld(cpu_context *ctx){
         return;
     }
     //default
-    cpu_set_reg_16(ctx->current_inst->reg_1, ctx->fetch_data);
+    cpu_write_reg(ctx->current_inst->reg_1, ctx->fetch_data);
 }
 
 static void proc_inc(cpu_context *ctx){

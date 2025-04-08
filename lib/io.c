@@ -18,7 +18,10 @@ void io_write(u16 address, u8 value){
         return;
     }
     else if(address <=0xFF07){//TIMER AND DIVIDER
-    return;//TODO memory
+        return;//TODO memory
+    }
+    if(address == 0xFF0F){
+        return;//TODO interrups!
     }
     NO_IMPLFROM("UNSUPPORTED IO_write addres!\n");
 }

@@ -83,7 +83,7 @@ void bus_write(u16 address, u8 value){
         hram_write(address,value);
     }
     else if(address == 0xFFFF){ // IE register
-        NO_IMPLFROM("WRITE from bus.c IE reg");
+        // NO_IMPLFROM("WRITE from bus.c IE reg");
     }
     else{
         NO_IMPL();

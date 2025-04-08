@@ -39,7 +39,7 @@ bool cpu_step() {
         u16 pc = ctx.regs.pc;
         fetch_instuction();
         fetch_data();
-        printf("PC: %04X , OP: (%02X %02X %02X), INST: %d | A:%02X, BC:%02X%02X, DE:%02X%02X, HL:%02X%02X\n", pc, ctx.current_opcode,bus_read(pc+1),bus_read(pc+2), ctx.current_inst->type,ctx.regs.a,ctx.regs.b,ctx.regs.c,ctx.regs.d,ctx.regs.e,ctx.regs.h,ctx.regs.l);
+        printf("PC: %04X , OP: (%02X %02X %02X), INST: %d | A:%02X, BC:%02X%02X, DE:%02X%02X, HL:%02X%02X, SP:%04X\n", pc, ctx.current_opcode,bus_read(pc+1),bus_read(pc+2), ctx.current_inst->type,ctx.regs.a,ctx.regs.b,ctx.regs.c,ctx.regs.d,ctx.regs.e,ctx.regs.h,ctx.regs.l,ctx.regs.sp);
         execute_instruction();
         // printf("DEPOIS - PC: (%04X), OP: %02X, INST: %d\n", ctx.regs.pc, ctx.current_opcode, ctx.current_inst->type);
     }
