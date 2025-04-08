@@ -213,11 +213,11 @@ instruction instructions[0x100] = {
     [0xD6] = {IN_SUB,AM_R_D8,RT_A},
     [0xDF] = {IN_RST, AM_IMP, RT_NONE, RT_NONE, CT_NONE, 0x18},
     //0xEX instructions
-    [0xE0] = {IN_LDH, AM_A8_R, RT_A},
-    [0xEA] = {IN_LD, AM_A16_R, RT_A},
+    [0xE0] = {IN_LDH, AM_A8_R,RT_NONE, RT_A},
+    [0xEA] = {IN_LD, AM_A16_R, RT_NONE, RT_A},
     [0xEF] = {IN_RST, AM_IMP, RT_NONE, RT_NONE, CT_NONE, 0x28},
     //0xFX instructions
-    [0xF0] = {IN_LDH, AM_R_A8, RT_A},
+    [0xF0] = {IN_LDH, AM_R_A8, RT_A,RT_NONE},
     [0xF1] = {IN_POP, AM_R, RT_AF},
     [0xF2] = {IN_LD, AM_R_R, RT_A, RT_C},
     [0xF3] = {IN_DI},

@@ -2,6 +2,8 @@
 #include <emu.h>
 //process instructions
 
+//set cpu flags?
+
 static bool check_cond(cpu_context *ctx){
     bool z = CPU_FLAG_Z;
     bool c = CPU_FLAG_C;

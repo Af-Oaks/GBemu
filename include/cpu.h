@@ -32,6 +32,7 @@ typedef struct
 
     //flagControls
     bool IME;
+    u8 ie_reg;
 
     // state of cpu
     bool halted;
@@ -45,6 +46,9 @@ bool cpu_step();
 
 typedef void (*IN_PROC)(cpu_context*);
 IN_PROC instruction_get_process(in_type type);
+
+u8 cpu_get_ie_reg();
+void cpu_set_ie_reg(u8 value);
 
 #define CPU_FLAG_Z BIT(ctx->regs.f,7)
 #define CPU_FLAG_N BIT(ctx->regs.f,6)

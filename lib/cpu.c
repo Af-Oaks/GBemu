@@ -35,12 +35,20 @@ static void execute_instruction(){
 
 bool cpu_step() {
     if(!ctx.halted){
-        printf("----------------\n ctx.pc = %04X !\n",ctx.regs.pc);
+        printf("----------------\n");
+        u16 pc = ctx.regs.pc;
         fetch_instuction();
-        printf("ANTES - PC: %04X, OP: %02X, INST: %d\n", ctx.regs.pc, ctx.current_opcode, ctx.current_inst->type);
         fetch_data();
+        printf("PC: %04X , OP: (%02X %02X %02X), INST: %d | A:%02X, BC:%02X%02X, DE:%02X%02X, HL:%02X%02X\n", pc, ctx.current_opcode,bus_read(pc+1),bus_read(pc+2), ctx.current_inst->type,ctx.regs.a,ctx.regs.b,ctx.regs.c,ctx.regs.d,ctx.regs.e,ctx.regs.h,ctx.regs.l);
         execute_instruction();
-        printf("DEPOIS - PC: %04X, OP: %02X, INST: %d\n", ctx.regs.pc, ctx.current_opcode, ctx.current_inst->type);
+        // printf("DEPOIS - PC: (%04X), OP: %02X, INST: %d\n", ctx.regs.pc, ctx.current_opcode, ctx.current_inst->type);
     }
     return true;
+}
+
+u8 cpu_get_ie_reg(){
+    return ctx.ie_reg;
+}
+void cpu_set_ie_reg(u8 value){
+    ctx.ie_reg = value;
 }

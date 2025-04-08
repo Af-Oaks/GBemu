@@ -97,10 +97,12 @@ void fetch_data(){
         return; 
     }
     case AM_A16_R:{
-        ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_1);
-        ctx.mem_dest = bus_read(ctx.regs.pc) | 0xFF00;//This is right? 16 bit?
+        ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);
+        u8 high = bus_read(ctx.regs.pc);
+        u8 low = bus_read(ctx.regs.pc +1);
+        ctx.mem_dest = (high<<8 )| low;
         ctx.dest_is_mem = true;
-        ctx.regs.pc++;
+        ctx.regs.pc+=2;//read 2 8bits values
         emu_cycles(1);
         return; 
     }

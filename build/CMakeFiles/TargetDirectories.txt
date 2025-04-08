@@ -1,8 +1,0 @@
-/home/adjailson/Documents/github/GBemu/build/CMakeFiles/edit_cache.dir
-/home/adjailson/Documents/github/GBemu/build/CMakeFiles/rebuild_cache.dir
-/home/adjailson/Documents/github/GBemu/build/lib/CMakeFiles/emu.dir
-/home/adjailson/Documents/github/GBemu/build/lib/CMakeFiles/edit_cache.dir
-/home/adjailson/Documents/github/GBemu/build/lib/CMakeFiles/rebuild_cache.dir
-/home/adjailson/Documents/github/GBemu/build/GBemu/CMakeFiles/gbemu.dir
-/home/adjailson/Documents/github/GBemu/build/GBemu/CMakeFiles/edit_cache.dir
-/home/adjailson/Documents/github/GBemu/build/GBemu/CMakeFiles/rebuild_cache.dir

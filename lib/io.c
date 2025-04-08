@@ -8,15 +8,17 @@ u8 io_read(u16 address){
         gamepad_read();
         return;
     }
-    NO_IMPLFROM("UNSUPPORTED bus_read\n");
+    NO_IMPLFROM("UNSUPPORTED IO_read\n");
 }
 
 void io_write(u16 address, u8 value){
     printf("bus_write(%04X)\n", address);
-    if (address == 0xFF00) {
+    if (address <= 0xFF00) {
         gamepad_set_sel(value);
         return;
     }
-    
-    NO_IMPLFROM("UNSUPPORTED bus_write addres!\n");
+    else if(address <=0xFF07){//TIMER AND DIVIDER
+    return;//TODO memory
+    }
+    NO_IMPLFROM("UNSUPPORTED IO_write addres!\n");
 }

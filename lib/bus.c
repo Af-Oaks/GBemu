@@ -1,5 +1,6 @@
 #include <bus.h>
 #include <common.h>
+#include <ram.h>
 
 // Addresses Name Description
 // 0000h – 3FFFh ROM0 Non-switchable ROM Bank.
@@ -17,7 +18,7 @@
 
 
 u8 bus_read(u16 address){
-    printf("BUS READ ADDRES = %04X\n",address);
+    // printf("BUS READ ADDRES = %04X\n",address);
     if(address < 0x8000){// ROM BANK
         return cart_read(address);
     }
@@ -28,7 +29,7 @@ u8 bus_read(u16 address){
         return cart_read(address);
     }
     else if(address < 0xE000){ // WRAM
-        NO_IMPLFROM("READ from bus.c WRAM");
+        wram_read(address);
     }
     else if(address < 0xFE00){ // ECHORAM
         return 0;
@@ -43,7 +44,7 @@ u8 bus_read(u16 address){
         return io_read(address);
     }
     else if(address < 0xFFFF){ // HIGH RAM
-        NO_IMPLFROM("READ from bus.c HIGH RAM");
+        hram_read(address);
     }
     else if(address == 0xFFFF){ // IE register
         NO_IMPLFROM("READ from bus.c IE");
@@ -64,7 +65,7 @@ void bus_write(u16 address, u8 value){
         NO_IMPLFROM("WRITE from bus.c SRAM");
     }
     else if(address < 0xE000){ // WRAM
-        NO_IMPLFROM("WRITE from bus.c WRAM");
+        wram_write(address,value);
     }
     else if(address < 0xFE00){ // ECHORAM
         return 0;
@@ -79,7 +80,7 @@ void bus_write(u16 address, u8 value){
         io_write(address,value);
     }
     else if(address < 0xFFFF){ // HIGH RAM
-        NO_IMPLFROM("WRITE from bus.c HIHG RAM");
+        hram_write(address,value);
     }
     else if(address == 0xFFFF){ // IE register
         NO_IMPLFROM("WRITE from bus.c IE reg");
@@ -101,7 +102,7 @@ void bus_write_16(u16 address, u16 value){
         NO_IMPLFROM("WRITE 16 from bus.c SRAM");
     }
     else if(address < 0xE000){ // WRAM
-        NO_IMPLFROM("WRITE 15 from bus.c WRAM");
+        NO_IMPLFROM("WRITE 16 from bus.c WRAM");
     }
     else if(address < 0xFE00){ // ECHORAM
         return 0;
@@ -116,7 +117,7 @@ void bus_write_16(u16 address, u16 value){
         NO_IMPLFROM("WRITE 16 from bus.c I/0");
     }
     else if(address < 0xFFFF){ // HIGH RAM
-        NO_IMPLFROM("WRITE 16 from bus.c HIHG RAM");
+        NO_IMPLFROM("WRITE 16 from bus.c HIGH RAM");
     }
     else if(address == 0xFFFF){ // IE register
         NO_IMPLFROM("WRITE 16 from bus.c IE reg");
