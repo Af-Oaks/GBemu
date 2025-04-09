@@ -47,6 +47,8 @@ bool cpu_step();
 typedef void (*IN_PROC)(cpu_context*);
 IN_PROC instruction_get_process(in_type type);
 
+cpu_registers* cpu_get_regs();
+
 u8 cpu_get_ie_reg();
 void cpu_set_ie_reg(u8 value);
 

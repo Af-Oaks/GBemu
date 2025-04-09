@@ -46,6 +46,10 @@ bool cpu_step() {
     return true;
 }
 
+cpu_registers* cpu_get_regs(){
+    return &ctx.regs;
+}
+
 u8 cpu_get_ie_reg(){
     return ctx.ie_reg;
 }
