@@ -1,11 +1,5 @@
 #include <stack.h>
 
-typedef struct 
-{
-    /* data */
-}stack;
-
-
 void stk_push(u8 value){
     cpu_get_regs()->sp--;
     bus_write(cpu_get_regs()->sp,value);

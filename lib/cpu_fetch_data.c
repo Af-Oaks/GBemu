@@ -13,7 +13,7 @@ void fetch_data(){
     }
 
     switch (ctx.current_inst->mode){
-    case AM_IMP:
+    case AM_IMP:// no need to fetch data?
         return;
     case AM_R:
         ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_1);

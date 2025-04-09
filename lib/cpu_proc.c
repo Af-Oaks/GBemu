@@ -1,5 +1,6 @@
 #include <cpu.h>
 #include <emu.h>
+#include <stack.h>
 //process instructions
 
 //set cpu flags?
@@ -108,6 +109,36 @@ static void proc_ldh(cpu_context *ctx){
     }
 }
 
+static void proc_rst(cpu_context *ctx){
+    printf("RST INSTR PARAM = %04X \n!!",ctx->current_inst->param);
+    goto_addr(ctx, ctx->current_inst->param, true);
+}
+
+static void proc_pop(cpu_context *ctx){
+    printf("POP INSTR addr(%04X),!!\n",ctx->regs.sp);
+    u16 low = stk_pop();
+    emu_cycles(1);
+    u16 hi = stk_pop();
+    emu_cycles(1);
+    u16 value = (hi<<8) | low;
+    
+    if(ctx->current_inst->reg_1 == RT_AF){
+        cpu_write_reg(ctx->current_inst->reg_1,value & 0xFFF0);
+    }else{
+        cpu_write_reg(ctx->current_inst->reg_1,value);
+    }
+}
+
+static void proc_push(cpu_context *ctx){
+    printf("PUSH INSTR addr(%04X)!!\n",ctx->regs.sp);
+    u16 low = cpu_read_reg(ctx->current_inst->reg_1) & 0xFF ;
+    stk_push(low);
+    emu_cycles(1);
+    u16 hi = (cpu_read_reg(ctx->current_inst->reg_2) >>8 ) & 0xFF;
+    stk_push(hi);
+    emu_cycles(1);
+}
+
 static IN_PROC processors[] = {
     [IN_NONE] = proc_none,
     [IN_NOP] = proc_nop,
@@ -119,7 +150,10 @@ static IN_PROC processors[] = {
     [IN_STOP] = proc_stop,
     [IN_DI] = proc_di,
     [IN_SUB] = proc_sub,
-    [IN_LDH] = proc_ldh
+    [IN_LDH] = proc_ldh,
+    [IN_POP] = proc_pop,
+    [IN_PUSH] = proc_push,
+    [IN_RST] = proc_rst
 };
 
 IN_PROC instruction_get_process(in_type type){
