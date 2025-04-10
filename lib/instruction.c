@@ -209,6 +209,7 @@ instruction instructions[0x100] = {
     //0xCX instructions
     [0xC3] = {IN_JP, AM_D16},
     [0xCF] = {IN_RST, AM_IMP, RT_NONE, RT_NONE, CT_NONE, 0x08},
+    [0xCD] = {IN_CALL, AM_D16},
     //0xDX instructions
     [0xD6] = {IN_SUB,AM_R_D8,RT_A},
     [0xDF] = {IN_RST, AM_IMP, RT_NONE, RT_NONE, CT_NONE, 0x18},

@@ -105,7 +105,7 @@ static void proc_ldh(cpu_context *ctx){
     if(ctx->current_inst->reg_1 == RT_A){
         cpu_set_reg_8(RT_A, bus_read(0xFF00 | ctx->fetch_data));
     }else{
-        bus_write(ctx->mem_dest | ctx->regs.a);
+        bus_write(ctx->mem_dest , ctx->regs.a);
     }
 }
 
@@ -139,6 +139,12 @@ static void proc_push(cpu_context *ctx){
     emu_cycles(1);
 }
 
+static void proc_call(cpu_context *ctx){
+    printf("CALL INSTR addr(%04X)!!\n",ctx->regs.sp);
+    u16 addr = ctx->fetch_data;
+    goto_addr(ctx, addr, true);
+}
+
 static IN_PROC processors[] = {
     [IN_NONE] = proc_none,
     [IN_NOP] = proc_nop,
@@ -153,7 +159,8 @@ static IN_PROC processors[] = {
     [IN_LDH] = proc_ldh,
     [IN_POP] = proc_pop,
     [IN_PUSH] = proc_push,
-    [IN_RST] = proc_rst
+    [IN_RST] = proc_rst,
+    [IN_CALL] = proc_call
 };
 
 IN_PROC instruction_get_process(in_type type){
