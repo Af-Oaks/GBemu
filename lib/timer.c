@@ -14,22 +14,35 @@ void timer_tick() {
     //TODO: i dont know how to calculate the ticks
     u16 prev_div = timer_ctx.DIV;
     timer_ctx.DIV++;
-
-    if(timer_ctx.TAC == 4){// 4096hz mode
-
+    bool update_tima = false;
+    if(timer_ctx.TAC == 4){// 4096hz mode -> every 1024
+        if(prev_div & 0x3FFF == 0){
+            update_tima = true;
+        }
     }
-    else if(timer_ctx.TAC == 5){// 262144hz mode
-
+    else if(timer_ctx.TAC == 5){// 262144hz mode -> every 16
+        if(prev_div & 0x000F == 0){
+            update_tima = true;
+        }
     }
-    else if(timer_ctx.TAC == 6){// 65536hz mode
-
+    else if(timer_ctx.TAC == 6){// 65536hz mode -> every 64
+        if(prev_div & 0x003F ==0){
+            update_tima = true;
+        }
     }
-    else if(timer_ctx.TAC == 7){// 16386hz mode
-
+    else if(timer_ctx.TAC == 7){// 16386hz mode -> every 256
+        if(prev_div & 0x00FF ==0){
+            update_tima = true;
+        }
     }
 
-    if(timer_ctx.DIV == 0){ // proc overflow ?
-
+    if(update_tima){ // proc overflow ? update tima?
+        timer_ctx.TIMA++;
+        if(timer_ctx.TIMA == 0xFF)// overflow
+        {
+            timer_ctx.TIMA = timer_ctx.TMA;//TODO: interrupts call!
+            NO_IMPLFROM("Not implement interruptcall from timer.c");
+        }
     }
 
 }
