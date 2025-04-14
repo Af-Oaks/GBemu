@@ -9,7 +9,8 @@ u8 io_read(u16 address){
         return;
     }
     else if(address <=0xFF07){//TIMER AND DIVIDER
-        return;//TODO memory
+        printf("TIMER DIV READ\n");
+        return timer_read(address);
     }
     else if(address == 0xFF0F){
         return;//TODO interrups!
@@ -45,7 +46,8 @@ void io_write(u16 address, u8 value){
         return;
     }
     else if(address <=0xFF07){//TIMER AND DIVIDER
-        return;//TODO memory
+        printf("TIMER DIV WRITE\n");
+        return timer_write(address,value);
     }
     else if(address == 0xFF0F){
         return;//TODO interrups!
