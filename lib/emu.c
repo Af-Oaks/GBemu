@@ -39,10 +39,7 @@ int emu_run(int argc, char **argv) {
 
     printf("Cart loaded..\n");
 
-    SDL_Init(SDL_INIT_VIDEO);
-    printf("SDL INIT\n");
-    TTF_Init();
-    printf("TTF INIT\n");
+    ui_init();
 
     cpu_init();
     
@@ -60,6 +57,10 @@ int emu_run(int argc, char **argv) {
             printf("CPU Stopped\n");
             return -3;
         }
+
+        // while(ctx.ticks ==10){
+
+        // }
 
         ctx.ticks++;
     }
