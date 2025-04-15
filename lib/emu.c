@@ -44,6 +44,10 @@ int emu_run(int argc, char **argv) {
     ctx.ticks = 0;
 
     while(ctx.running) {
+
+        update_dbg_window();
+        ui_handle_events();
+
         if(ctx.close){
             ui_close();
             ctx.running=false;
@@ -59,13 +63,13 @@ int emu_run(int argc, char **argv) {
             return -3;
         }
 
-        while(ctx.ticks ==10){
-            update_dbg_window();
-            ui_handle_events();
-            if(ctx.close){
-                ctx.ticks++;
-            }
-        }
+        // while(ctx.ticks ==10){
+        //     update_dbg_window();
+        //     ui_handle_events();
+        //     if(ctx.close){
+        //         ctx.ticks++;
+        //     }
+        // }
 
         ctx.ticks++;
     }

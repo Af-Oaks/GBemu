@@ -2,8 +2,39 @@
 #include <emu.h>
 #include <stack.h>
 //process instructions
+void cpu_set_flags(cpu_context *ctx, int8_t z, int8_t n, int8_t h, int8_t c) {
+    if (z != -1) {
+        if(z){
+            ctx->regs.f |= (1<<7);
+        }else{
+            ctx->regs.f &= ~(1<<7);
+        }
+    }
 
-//set cpu flags?
+    if (n != -1) {
+        if(n){
+            ctx->regs.f |= (1<<6);
+        }else{
+            ctx->regs.f &= ~(1<<6);
+        }
+    }
+
+    if (h != -1) {
+        if(h){
+            ctx->regs.f |= (1<<5);
+        }else{
+            ctx->regs.f &= ~(1<<5);
+        }
+    }
+
+    if (c != -1) {
+        if(c){
+            ctx->regs.f |= (1<<4);
+        }else{
+            ctx->regs.f &= ~(1<<4);
+        }
+    }
+}
 
 static bool check_cond(cpu_context *ctx){
     bool z = CPU_FLAG_Z;
@@ -145,6 +176,32 @@ static void proc_call(cpu_context *ctx){
     goto_addr(ctx, addr, true);
 }
 
+static void proc_daa(cpu_context * ctx){
+    printf("CALL INSTR DAA NOT IMPL\n");
+}
+
+static void proc_ret(cpu_context *ctx){
+    printf("CALL INSTR RET NOT IMPL\n");
+}
+static void proc_cp(cpu_context *ctx){
+    printf("CALL INSTR CP NOT IMPL");
+}
+
+static void proc_and(cpu_context *ctx) {
+    ctx->regs.a &= ctx->fetch_data;
+    cpu_set_flags(ctx, ctx->regs.a == 0, 0, 1, 0);
+}
+
+static void proc_xor(cpu_context *ctx) {
+    ctx->regs.a ^= ctx->fetch_data & 0xFF;
+    cpu_set_flags(ctx, ctx->regs.a == 0, 0, 0, 0);
+}
+
+static void proc_or(cpu_context *ctx) {
+    ctx->regs.a |= ctx->fetch_data & 0xFF;
+    cpu_set_flags(ctx, ctx->regs.a == 0, 0, 0, 0);
+}
+
 static IN_PROC processors[] = {
     [IN_NONE] = proc_none,
     [IN_NOP] = proc_nop,
@@ -160,7 +217,13 @@ static IN_PROC processors[] = {
     [IN_POP] = proc_pop,
     [IN_PUSH] = proc_push,
     [IN_RST] = proc_rst,
-    [IN_CALL] = proc_call
+    [IN_CALL] = proc_call,
+    [IN_DAA] = proc_daa,
+    [IN_RET] = proc_ret,
+    [IN_CP] = proc_cp,
+    [IN_OR] = proc_or,
+    [IN_AND] = proc_and,
+    [IN_XOR] = proc_xor
 };
 
 IN_PROC instruction_get_process(in_type type){

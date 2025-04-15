@@ -4,8 +4,8 @@
 
 typedef struct 
 {
-    u8 wram[2000];
-    u8 hram[80];
+    u8 wram[0x2000];
+    u8 hram[0x80];
 }ram_context;
 
 

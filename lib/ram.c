@@ -14,11 +14,10 @@ u8 wram_read(u16 addres){
 }
 
 void wram_write(u16 addres, u8 value){
-    printf("WRAM_WRITE %04X\n",addres);
+    printf("WRAM_WRITE %04X -0xC000 =%04X\n",addres,addres-0xC000);
     if(addres < 0xC000 || addres >= 0xE000){
         UNEXPECTED_ERROR("WRAM_WRITE!");
     }
-
     ram_ctx.wram[addres-0xC000] = value;
 }
 

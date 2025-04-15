@@ -1,6 +1,7 @@
 #include <bus.h>
 #include <common.h>
 #include <ram.h>
+#include <ppu.h>
 
 // Addresses Name Description
 // 0000h – 3FFFh ROM0 Non-switchable ROM Bank.
@@ -23,7 +24,7 @@ u8 bus_read(u16 address){
         return cart_read(address);
     }
     else if(address < 0xA000){ // VRAM
-        NO_IMPLFROM("READ from bus.c VRAM");
+        return ppu_vram_read(address);
     }
     else if(address < 0xC000){ //SRAM
         return cart_read(address);
@@ -59,7 +60,7 @@ void bus_write(u16 address, u8 value){
         return cart_write(address,value);
     }
     else if(address < 0xA000){ // VRAM
-        NO_IMPLFROM("WRITE from bus.c VRAM");
+        return ppu_vram_write(address,value);
     }
     else if(address < 0xC000){ //SRAM
         NO_IMPLFROM("WRITE from bus.c SRAM");
