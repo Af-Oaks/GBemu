@@ -2,8 +2,7 @@
 #include <emu.h>
 #include <cart.h>
 #include <cpu.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <ui.h>
 
 /* 
   Emu components:
@@ -20,10 +19,6 @@ static emu_context ctx;
 
 emu_context *emu_get_context() {
     return &ctx;
-}
-
-void delay(u32 ms) {
-    SDL_Delay(ms);
 }
 
 int emu_run(int argc, char **argv) {
@@ -45,9 +40,15 @@ int emu_run(int argc, char **argv) {
     
     ctx.running = true;
     ctx.paused = false;
+    ctx.close = false;
     ctx.ticks = 0;
 
     while(ctx.running) {
+        if(ctx.close){
+            ui_close();
+            ctx.running=false;
+        }
+
         if (ctx.paused) {
             delay(10);
             continue;
@@ -58,9 +59,13 @@ int emu_run(int argc, char **argv) {
             return -3;
         }
 
-        // while(ctx.ticks ==10){
-
-        // }
+        while(ctx.ticks ==10){
+            update_dbg_window();
+            ui_handle_events();
+            if(ctx.close){
+                ctx.ticks++;
+            }
+        }
 
         ctx.ticks++;
     }

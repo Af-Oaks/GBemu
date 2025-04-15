@@ -18,5 +18,6 @@ typedef struct
 
 void  gamepad_set_sel(u8 value);
 u8 gamepad_read();
+Gamepad* gamepad_get_state();
 bool is_select_buttons();
 bool is_select_dpad();

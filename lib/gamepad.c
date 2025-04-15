@@ -25,6 +25,10 @@ void  gamepad_set_sel(u8 value){
     gamepad_state();
 }
 
+Gamepad* gamepad_get_state(){
+    return &gamepad;
+}
+
 bool is_select_buttons(){
     return gamepad.select_buttons;
 }
