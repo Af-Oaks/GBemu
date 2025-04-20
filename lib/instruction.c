@@ -252,7 +252,7 @@ instruction instructions[0x100] = {
     //0xFX instructions
     [0xF0] = {IN_LDH, AM_R_A8, RT_A,RT_NONE},
     [0xF1] = {IN_POP, AM_R, RT_AF},
-    [0xF2] = {IN_LD, AM_R_R, RT_A, RT_C},
+    [0xF2] = {IN_LD, AM_R_MR, RT_A, RT_C},
     [0xF3] = {IN_DI},
     [0xF5] = {IN_PUSH, AM_R, RT_AF},
     [0xF6] = {IN_OR, AM_R_D8, RT_A},

@@ -11,6 +11,8 @@ void cpu_init() {
     *((short *)&ctx.regs.b) = 0x1300;
     *((short *)&ctx.regs.d) = 0xD800;
     *((short *)&ctx.regs.h) = 0x4D01;
+    ctx.ie_reg =0;
+    ctx.IME =false;
 }
 
 static void fetch_instuction(){
@@ -58,5 +60,5 @@ void cpu_set_ie_reg(u8 value){
 }
 
 void cpu_tick(){
-    
+
 }
