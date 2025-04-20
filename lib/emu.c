@@ -36,7 +36,6 @@ int emu_run(int argc, char **argv) {
     printf("Cart loaded..\n");
 
     ui_init();
-
     cpu_init();
     
     ctx.running = true;
@@ -64,12 +63,14 @@ int emu_run(int argc, char **argv) {
             return -3;
         }
 
-        // while(ctx.ticks >=80){
+        // while(ctx.ticks >=250){
         //     update_dbg_window();
         //     ui_handle_events();
         //     if(ctx.close){
-        //         ctx.ticks++;
+        //         ui_close();
+        //         ctx.running=false;
         //     }
+        //     ctx.ticks++;
         // }
 
         ctx.ticks++;

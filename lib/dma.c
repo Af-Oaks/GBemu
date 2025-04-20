@@ -2,8 +2,6 @@
 #include <ppu.h>
 #include <bus.h>
 
-
-
 static dma_context ctx;
 
 void dma_start(u8 value){
@@ -29,6 +27,7 @@ void dma_tick(){
     ctx.byte++;
     ctx.active = ctx.byte < 0xA0;
     if(!ctx.active){
+        printf("DMA DONE!\n");
         sleep(100);
     }
 }

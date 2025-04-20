@@ -32,7 +32,9 @@ typedef struct
 
     //flagControls
     bool IME;
+    bool enabling_ime;
     u8 ie_reg;
+    u8 int_flags;
 
     // state of cpu
     bool halted;
@@ -52,6 +54,15 @@ cpu_registers* cpu_get_regs();
 
 u8 cpu_get_ie_reg();
 void cpu_set_ie_reg(u8 value);
+u8 cpu_get_int_flags();
+void cpu_set_int_flags(u8 value);
+
+u16 cpu_read_reg(reg_type rt);
+void cpu_write_reg(reg_type rt, u16 val);
+
+u8 cpu_read_reg_8(reg_type rt);
+void cpu_write_reg_8(reg_type rt, u8 val);
+
 
 #define CPU_FLAG_Z BIT(ctx->regs.f,7)
 #define CPU_FLAG_N BIT(ctx->regs.f,6)

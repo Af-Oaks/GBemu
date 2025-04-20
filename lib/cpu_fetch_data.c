@@ -68,6 +68,7 @@ void fetch_data(){
     } return;
 
     case AM_R_HLI:
+        printf("fetch reg2(%02x) = %04x\n!",ctx.current_inst->reg_2,cpu_read_reg(ctx.current_inst->reg_2));
         ctx.fetch_data = bus_read(cpu_read_reg(ctx.current_inst->reg_2));
         emu_cycles(1);
         cpu_write_reg(RT_HL, cpu_read_reg(RT_HL) + 1);

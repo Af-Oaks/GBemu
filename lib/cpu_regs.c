@@ -87,3 +87,10 @@ u8 cpu_read_reg_8(reg_type rt) {
             NO_IMPL();
     }
 }
+u8 cpu_get_int_flags() {
+    return ctx.int_flags;
+}
+
+void cpu_set_int_flags(u8 value) {
+    ctx.int_flags = value;
+}

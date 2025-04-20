@@ -3,7 +3,7 @@
 
 
 
-lcd_context ctx = {0};
+static lcd_context ctx;
 
 lcd_context* get_lcd_context(){
     return &ctx;

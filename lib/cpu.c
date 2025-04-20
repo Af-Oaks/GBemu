@@ -1,6 +1,7 @@
 #include <cpu.h>
 #include <bus.h>
 #include <emu.h>
+#include <interrupts.h>
 
 cpu_context ctx = {0};
 
@@ -45,6 +46,24 @@ bool cpu_step() {
         execute_instruction();
         // printf("DEPOIS - PC: (%04X), OP: %02X, INST: %d\n", ctx.regs.pc, ctx.current_opcode, ctx.current_inst->type);
     }
+    else {
+        //is halted...
+        emu_cycles(1);
+
+        if (ctx.int_flags) {
+            ctx.halted = false;
+        }
+    }
+
+    if (ctx.IME) {
+        cpu_handle_interrupts(&ctx);
+        ctx.enabling_ime = false;
+    }
+
+    if (ctx.enabling_ime) {
+        ctx.IME = true;
+    }
+
     return true;
 }
 

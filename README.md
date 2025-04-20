@@ -11,6 +11,7 @@ cd GBemu
 ./gbemu ../../roms/01-special.gb
 
 cd ..
+cmake -S ..
 make
 cd GBemu
 ./gbemu ../../../Tetris.gb
