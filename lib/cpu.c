@@ -56,3 +56,7 @@ u8 cpu_get_ie_reg(){
 void cpu_set_ie_reg(u8 value){
     ctx.ie_reg = value;
 }
+
+void cpu_tick(){
+    
+}

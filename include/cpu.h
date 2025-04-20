@@ -43,6 +43,7 @@ static void fetch_instuction();
 static void execute_instruction();
 void cpu_init();
 bool cpu_step();
+void cpu_tick();
 
 typedef void (*IN_PROC)(cpu_context*);
 IN_PROC instruction_get_process(in_type type);

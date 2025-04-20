@@ -8,4 +8,9 @@ test comand in dir /build:
 cd ..
 make
 cd GBemu
-./gbemu ../../roms/cpu_instrs.gb
+./gbemu ../../roms/01-special.gb
+
+cd ..
+make
+cd GBemu
+./gbemu ../../../Tetris.gb

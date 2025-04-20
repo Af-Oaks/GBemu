@@ -23,7 +23,7 @@ void wram_write(u16 addres, u8 value){
 
 u8 hram_read(u16 addres){
     printf("HRAM_READ %04X\n",addres);
-    if(addres < 0xFF80 || addres >= 0xFFFE){
+    if(addres < 0xFF80 || addres > 0xFFFE){
         UNEXPECTED_ERROR("HRAM_READ!");
     }
 
@@ -32,8 +32,8 @@ u8 hram_read(u16 addres){
 
 void hram_write(u16 addres, u8 value){
     printf("HRAM_READ %04X\n",addres);
-    if(addres < 0xFF80 || addres >= 0xFFFE){
-        UNEXPECTED_ERROR("HRAM_READ!");
+    if(addres < 0xFF80 || addres > 0xFFFE){
+        UNEXPECTED_ERROR("HRAM_WRITE!");
     }
 
     ram_ctx.hram[addres-0xFF80] = value;

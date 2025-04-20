@@ -65,6 +65,6 @@ void cpu_set_reg_8(reg_type type, u8 val) {
         case RT_HL: bus_write(cpu_read_reg(RT_HL), val); break;
         default:
             printf("invalid register type %d\n", type);
-            UNEXPECTED_ERROR("cpu_set_reg_16");
+            UNEXPECTED_ERROR("cpu_set_reg_8");
     }
 }

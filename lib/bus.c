@@ -2,6 +2,7 @@
 #include <common.h>
 #include <ram.h>
 #include <ppu.h>
+#include <dma.h>
 
 // Addresses Name Description
 // 0000h – 3FFFh ROM0 Non-switchable ROM Bank.
@@ -17,6 +18,7 @@
 // FF80h – FFFEh HRAM Internal CPU RAM
 // FFFFh IE Register Interrupt enable flags.
 
+u8 ly=0;
 
 u8 bus_read(u16 address){
     // printf("BUS READ ADDRES = %04X\n",address);
@@ -36,10 +38,19 @@ u8 bus_read(u16 address){
         return 0;
     }
     else if(address < 0xFEA0){ // OAM
-        NO_IMPLFROM("READ from bus.c OAM");
+        return ppu_oam_read(address);
     }
     else if(address < 0xFF00){ // NOT USABLE
         return 0;
+    }
+    else if(address == 0xFF44){//
+        return ly++;
+    }
+    else if(address < 0xFF46){ // DMA
+        if(dma_transfer()){
+            return 0xFF;
+        }
+        return ppu_oam_read(address);
     }
     else if(address < 0xFF80){ // I/0 REGISTER
         return io_read(address);
@@ -72,10 +83,19 @@ void bus_write(u16 address, u8 value){
         return 0;
     }
     else if(address < 0xFEA0){ // OAM
-        NO_IMPLFROM("WRITE from bus.c OAM");
+        return ppu_oam_write(address,value);
     }
     else if(address < 0xFF00){ // NOT USABLE
         return 0;
+    }
+    else if(address == 0xFF44){
+        return 0;
+    }
+    else if(address == 0xFF46){//DMA
+        if(dma_transfer()){
+            return 0;
+        }
+        return ppu_oam_write(address,value);
     }
     else if(address < 0xFF80){ // I/0 REGISTER
         io_write(address,value);
@@ -84,7 +104,7 @@ void bus_write(u16 address, u8 value){
         hram_write(address,value);
     }
     else if(address == 0xFFFF){ // IE register
-        // NO_IMPLFROM("WRITE from bus.c IE reg");
+        NO_IMPLFROM("WRITE from bus.c IE reg");
     }
     else{
         NO_IMPL();

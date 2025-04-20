@@ -5,7 +5,7 @@ instruction instructions[0x100] = {
 
     [0x00] = {IN_NOP, AM_IMP},
     [0x01] = {IN_LD, AM_R_D16, RT_BC},
-    [0x02] = {IN_LD, AM_R_R, RT_BC, RT_A},
+    [0x02] = {IN_LD, AM_MR_R, RT_BC, RT_A},
     [0x03] = {IN_INC, AM_R, RT_BC},
     [0x04] = {IN_INC, AM_R, RT_B},
     [0x05] = {IN_DEC, AM_R, RT_B},
@@ -22,7 +22,7 @@ instruction instructions[0x100] = {
     //0x1X instructions
     [0x10] = {IN_STOP},
     [0x11] = {IN_LD, AM_R_D16,RT_DE},
-    [0x12] = {IN_LD, AM_R_R, RT_DE, RT_A},
+    [0x12] = {IN_LD, AM_MR_R, RT_DE, RT_A},
     [0x13] = {IN_INC, AM_R, RT_DE},
     [0x14] = {IN_INC, AM_R, RT_D},
     [0x15] = {IN_DEC, AM_R, RT_D},

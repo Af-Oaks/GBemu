@@ -3,6 +3,7 @@
 #include <cart.h>
 #include <cpu.h>
 #include <ui.h>
+#include <dma.h>
 
 /* 
   Emu components:
@@ -63,7 +64,7 @@ int emu_run(int argc, char **argv) {
             return -3;
         }
 
-        // while(ctx.ticks ==10){
+        // while(ctx.ticks >=80){
         //     update_dbg_window();
         //     ui_handle_events();
         //     if(ctx.close){
@@ -78,5 +79,11 @@ int emu_run(int argc, char **argv) {
 }
 
 void emu_cycles(int cpu_cycles){
-    //TODO
+    for(int x=0;x<cpu_cycles;x++){
+        for(int y=0;y<4;y++){
+            ctx.ticks++;
+            cpu_tick();
+        }
+        dma_tick();
+    }
 }

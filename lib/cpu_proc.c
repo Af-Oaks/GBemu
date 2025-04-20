@@ -87,16 +87,69 @@ static void proc_ld(cpu_context *ctx){
         emu_cycles(1);
         return;
     }
+
+
+    if (ctx->current_inst->mode == AM_HL_SPR) {
+        u8 hflag = (cpu_read_reg(ctx->current_inst->reg_2) & 0xF) + 
+            (ctx->fetch_data & 0xF) >= 0x10;
+
+        u8 cflag = (cpu_read_reg(ctx->current_inst->reg_2) & 0xFF) + 
+            (ctx->fetch_data & 0xFF) >= 0x100;
+
+        cpu_set_flags(ctx, 0, 0, hflag, cflag);
+        cpu_write_reg(ctx->current_inst->reg_1, 
+        cpu_read_reg(ctx->current_inst->reg_2) + (int8_t)ctx->fetch_data);
+
+        return;
+    }
+
     //default
     cpu_write_reg(ctx->current_inst->reg_1, ctx->fetch_data);
 }
 
 static void proc_inc(cpu_context *ctx){
-    printf("INC INSTRUCTION NOT IMPL!\n");
+    printf("INC INSTRUCTION !\n");
+    u16 val = cpu_read_reg(ctx->current_inst->reg_1) + 1;
+
+    if (is_16_bit(ctx->current_inst->reg_1)) {
+        emu_cycles(1);
+    }
+
+    if (ctx->current_inst->reg_1 == RT_HL && ctx->current_inst->mode == AM_MR) {
+        val = bus_read(cpu_read_reg(RT_HL)) + 1;
+        val &= 0xFF;
+        bus_write(cpu_read_reg(RT_HL), val);
+    } else {
+        cpu_write_reg(ctx->current_inst->reg_1, val);
+        val = cpu_read_reg(ctx->current_inst->reg_1);
+    }
+
+    if ((ctx->current_opcode & 0x03) == 0x03) {
+        return;
+    }
+
+    cpu_set_flags(ctx, val == 0, 0, (val & 0x0F) == 0, -1);
 }
 
 static void proc_dec(cpu_context *ctx){
-    printf("DEC INSTRUCTION NOT IMPL!\n");
+    printf("DEC INSTRUCTION!\n");
+    u16 val = cpu_read_reg(ctx->current_inst->reg_1) - 1;
+
+    if (is_16_bit(ctx->current_inst->reg_1)) {
+        emu_cycles(1);
+    }
+
+    if (ctx->current_inst->reg_1 == RT_HL && ctx->current_inst->mode == AM_MR) {
+        val = bus_read(cpu_read_reg(RT_HL)) - 1;
+        bus_write(cpu_read_reg(RT_HL), val);
+    } else {
+        cpu_write_reg(ctx->current_inst->reg_1, val);
+        val = cpu_read_reg(ctx->current_inst->reg_1);
+    }
+
+    if ((ctx->current_opcode & 0x0B) == 0x0B) {
+        return;
+    }
 }
 
 static void proc_stop(cpu_context *ctx) {
@@ -107,6 +160,11 @@ static void proc_stop(cpu_context *ctx) {
 static void goto_addr(cpu_context *ctx, u16 addr, bool pushpc) {
     printf("GOTO_ADDR INSTR\n");
     if (check_cond(ctx)) {
+        if (pushpc) {
+            emu_cycles(2);
+            stk_push_16(ctx->regs.pc);
+        }
+
         ctx->regs.pc = addr;
         emu_cycles(1);
     }
@@ -127,14 +185,14 @@ static void proc_di(cpu_context *ctx) {
 static void proc_sub(cpu_context *ctx){
     u8 result = ctx->regs.a - ctx->fetch_data;
     printf("SUB INST result: %02X = reg_A(%02X) - N8(%04X) ",result,ctx->regs.a,ctx->fetch_data);
-    cpu_set_reg_8(RT_A,result);
+    cpu_write_reg(RT_A,result);
     printf("after = %02X\n",ctx->regs.a);
 }
 
 static void proc_ldh(cpu_context *ctx){
     printf("LDH INSTR addr(%04X)!!\n",ctx->mem_dest | ctx->regs.a);
     if(ctx->current_inst->reg_1 == RT_A){
-        cpu_set_reg_8(RT_A, bus_read(0xFF00 | ctx->fetch_data));
+        cpu_write_reg(RT_A, bus_read(0xFF00 | ctx->fetch_data));
     }else{
         bus_write(ctx->mem_dest , ctx->regs.a);
     }

@@ -41,6 +41,21 @@ void fetch_data(){
         ctx.regs.pc += 2;
         return;
     }
+    case AM_R_A16: {
+        u16 lo = bus_read(ctx.regs.pc);
+        emu_cycles(1);
+
+        u16 hi = bus_read(ctx.regs.pc + 1);
+        emu_cycles(1);
+
+        u16 addr = lo | (hi << 8);
+
+        ctx.regs.pc += 2;
+        ctx.fetch_data = bus_read(addr);
+        emu_cycles(1);
+
+        return;
+    }
 
     case AM_MR_R:{
         ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);
@@ -50,6 +65,14 @@ void fetch_data(){
             ctx.mem_dest |= 0xFF00;
         }
         return;
+    }
+    
+    case AM_MR_D8:{
+        ctx.fetch_data = bus_read(ctx.regs.pc);
+        emu_cycles(1);
+        ctx.regs.pc++;
+        ctx.mem_dest = cpu_read_reg(ctx.current_inst->reg_1);
+        ctx.dest_is_mem = true;
     }
 
     case AM_R_MR:{
@@ -61,20 +84,27 @@ void fetch_data(){
         ctx.fetch_data = bus_read(addres);
 
         return;
-    }
+    }        
+    case AM_MR:
+    ctx.mem_dest = cpu_read_reg(ctx.current_inst->reg_1);
+    ctx.dest_is_mem = true;
+    ctx.fetch_data = bus_read(cpu_read_reg(ctx.current_inst->reg_1));
+    emu_cycles(1);
+    return;
+
 
     case AM_HLI_R:{
         ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);
         ctx.mem_dest = cpu_read_reg(ctx.current_inst->reg_1);
         ctx.dest_is_mem = true;
-        ctx.regs.l++;//TODO: verify overflow to increase from reg H if need
+        cpu_write_reg(RT_HL, cpu_read_reg(RT_HL) + 1);//TODO: verify overflow to increase from reg H if need
         //verify if a need to change the mem_dest
         return;
     }
     case AM_R_HLI:{
         ctx.fetch_data = bus_read(cpu_read_reg(ctx.current_inst->reg_2));
         emu_cycles(1);
-        ctx.regs.l++;//TODO: verify overflow to increase from reg H if need
+        cpu_write_reg(RT_HL, cpu_read_reg(RT_HL) + 1);//TODO: verify overflow to increase from reg H if need
         //verify if a need to change the mem_dest
         return;
     }
@@ -83,7 +113,7 @@ void fetch_data(){
         ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);
         ctx.mem_dest = cpu_read_reg(ctx.current_inst->reg_1);
         ctx.dest_is_mem = true;
-        ctx.regs.l--;//TODO: verify underflow to decrease from reg H if need
+        cpu_write_reg(RT_HL, cpu_read_reg(RT_HL) - 1);//TODO: verify underflow to decrease from reg H if need
         //verify if a need to change the mem_dest
         return;
     }
@@ -96,6 +126,8 @@ void fetch_data(){
         emu_cycles(1);
         return; 
     }
+
+    case AM_D16_R:
     case AM_A16_R:{
         ctx.fetch_data = cpu_read_reg(ctx.current_inst->reg_2);
         u8 high = bus_read(ctx.regs.pc);
@@ -106,9 +138,6 @@ void fetch_data(){
         emu_cycles(1);
         return; 
     }
-
-
-
     default:
         printf("Uknow address mode %d\n", ctx.current_inst->mode);
         UNEXPECTED_ERROR("fetch_data in cpu_fetche_data.c");
