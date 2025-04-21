@@ -61,6 +61,9 @@ u8 read_lcd_reg(u16 address){
     else if(0xFF45 == address){
         return ctx.lyc;
     }
+    else if(0xFF46 == address){
+        return ctx.dma;
+    }
     else if(0xFF47 == address){
         return ctx.bgp;
     }
@@ -110,6 +113,7 @@ void write_lcd_reg(u16 address,u8 value){
         return;
     }
     else if (address == 0xFF46) {
+        ctx.dma = value;
         dma_start(value);
         printf("DMA START!\n");
         return;
