@@ -5,7 +5,7 @@ static ram_context ram_ctx;
 
 
 u8 wram_read(u16 addres){
-    printf("WRAM_READ %04X\n",addres);
+    // printf("WRAM_READ %04X\n",addres);
     if(addres < 0xC000 || addres >= 0xE000){
         UNEXPECTED_ERROR("WRAM_READ!");
     }
@@ -14,7 +14,7 @@ u8 wram_read(u16 addres){
 }
 
 void wram_write(u16 addres, u8 value){
-    printf("WRAM_WRITE %04X -0xC000 =%04X\n",addres,addres-0xC000);
+    // printf("WRAM_WRITE %04X -0xC000 =%04X\n",addres,addres-0xC000);
     if(addres < 0xC000 || addres >= 0xE000){
         UNEXPECTED_ERROR("WRAM_WRITE!");
     }
@@ -22,7 +22,7 @@ void wram_write(u16 addres, u8 value){
 }
 
 u8 hram_read(u16 addres){
-    printf("HRAM_READ %04X\n",addres);
+    // printf("HRAM_READ %04X\n",addres);
     if(addres < 0xFF80 || addres > 0xFFFE){
         UNEXPECTED_ERROR("HRAM_READ!");
     }
@@ -31,7 +31,7 @@ u8 hram_read(u16 addres){
 }
 
 void hram_write(u16 addres, u8 value){
-    printf("HRAM_READ %04X\n",addres);
+    // printf("HRAM_READ %04X\n",addres);
     if(addres < 0xFF80 || addres > 0xFFFE){
         UNEXPECTED_ERROR("HRAM_WRITE!");
     }

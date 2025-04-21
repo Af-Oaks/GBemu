@@ -63,7 +63,7 @@ void io_write(u16 address, u8 value){
     else if (address == 0xFF02){
         return serial_data[1] = value;
     }
-    else if(address <=0xFF07){//TIMER AND DIVIDER
+    else if(address>=0xFF04 && address <=0xFF07){//TIMER AND DIVIDER
         printf("TIMER DIV WRITE\n");
         return timer_write(address,value);
     }
@@ -77,6 +77,7 @@ void io_write(u16 address, u8 value){
     else if (address == 0xFF46) {
         dma_start(value);
         printf("DMA START!\n");
+        return;
     }
     // else if(address >= 0xFF40 && address <= 0xFF4B){
     //     return;//TODO LCD
@@ -97,5 +98,5 @@ void io_write(u16 address, u8 value){
     //     return;//TODO: WRAM BANK SELECT
     // }
 
-    NO_IMPLFROM("UNSUPPORTED IO_write addres!\n");
+    // NO_IMPLFROM("UNSUPPORTED IO_write addres!\n");
 }

@@ -31,7 +31,7 @@ u8 bus_read(u16 address){
         return cart_read(address);
     }
     else if(address < 0xE000){ // WRAM
-        wram_read(address);
+        return wram_read(address);
     }
     else if(address < 0xFE00){ // ECHORAM
         return 0;
@@ -55,7 +55,7 @@ u8 bus_read(u16 address){
 }
 
 void bus_write(u16 address, u8 value){
-
+    // printf("BUS WRITE ADDRES = %04X , value =%02X\n",address,value);
     if(address < 0x8000){// ROM BANK
         cart_write(address,value);
     }
@@ -63,7 +63,7 @@ void bus_write(u16 address, u8 value){
         ppu_vram_write(address,value);
     }
     else if(address < 0xC000){ //SRAM
-        NO_IMPLFROM("WRITE from bus.c SRAM");
+        cart_write(address,value);
     }
     else if(address < 0xE000){ // WRAM
         wram_write(address,value);

@@ -11,7 +11,6 @@ void timer_init() {
 }
 
 void timer_tick() {
-    //TODO: i dont know how to calculate the ticks
     u16 prev_div = timer_ctx.DIV;
     timer_ctx.DIV++;
     bool update_tima = false;
@@ -64,6 +63,7 @@ u8 timer_read(u16 address){
     }
     UNEXPECTED_ERROR("timer.c unexpected addres!");
 }
+
 void timer_write(u16 address,u8 value){
     if(address == 0xFF04){
         timer_ctx.DIV = 0x0000;

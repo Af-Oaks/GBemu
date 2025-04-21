@@ -17,7 +17,7 @@ SDL_Texture *sdlDebugTexture;
 SDL_Surface *debugScreen;
 
 static unsigned long tile_colors[4] = {0xFFFFFFFF, 0xFFAAAAAA, 0xFF555555, 0xFF000000};
-int scale = 3;
+int scale = 4;
 
 void ui_init() {
     
@@ -110,7 +110,6 @@ void update_dbg_window(){
             xDraw += (8 * scale);
             tileNum++;
         }
-
         yDraw += (8 * scale);
         xDraw = 0;
     }

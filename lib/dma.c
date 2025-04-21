@@ -28,7 +28,7 @@ void dma_tick(){
     ctx.active = ctx.byte < 0xA0;
     if(!ctx.active){
         printf("DMA DONE!\n");
-        sleep(100);
+        sleep(2);
     }
 }
 

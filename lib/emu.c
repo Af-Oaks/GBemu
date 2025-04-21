@@ -5,6 +5,9 @@
 #include <ui.h>
 #include <dma.h>
 
+#include <pthread.h>
+#include <unistd.h>
+
 /* 
   Emu components:
 
@@ -16,10 +19,38 @@
 
 */
 
+
 static emu_context ctx;
 
 emu_context *emu_get_context() {
     return &ctx;
+}
+
+void *cpu_run(void *p){
+    cpu_init();
+    ctx.running = true;
+    ctx.paused = false;
+    ctx.close = false;
+    ctx.ticks = 0;
+
+    while(ctx.running){
+        if(ctx.close){
+            ui_close();
+            ctx.running=false;
+        }
+
+        if (ctx.paused) {
+            delay(10);
+            continue;
+        }
+
+        if (!cpu_step()) {
+            printf("CPU Stopped\n");
+            return -3;
+        }
+
+        ctx.ticks++;
+    }
 }
 
 int emu_run(int argc, char **argv) {
@@ -36,44 +67,17 @@ int emu_run(int argc, char **argv) {
     printf("Cart loaded..\n");
 
     ui_init();
-    cpu_init();
     
-    ctx.running = true;
-    ctx.paused = false;
-    ctx.close = false;
-    ctx.ticks = 0;
+    pthread_t t1;
 
-    while(ctx.running) {
+    if (pthread_create(&t1, NULL, cpu_run, NULL)) {
+        fprintf(stderr, "FAILED TO START MAIN CPU THREAD!\n");
+        return -1;
+    }
 
+    while(!ctx.close) {
         update_dbg_window();
         ui_handle_events();
-
-        if(ctx.close){
-            ui_close();
-            ctx.running=false;
-        }
-
-        if (ctx.paused) {
-            delay(10);
-            continue;
-        }
-
-        if (!cpu_step()) {
-            printf("CPU Stopped\n");
-            return -3;
-        }
-
-        // while(ctx.ticks >=250){
-        //     update_dbg_window();
-        //     ui_handle_events();
-        //     if(ctx.close){
-        //         ui_close();
-        //         ctx.running=false;
-        //     }
-        //     ctx.ticks++;
-        // }
-
-        ctx.ticks++;
     }
 
     return 0;

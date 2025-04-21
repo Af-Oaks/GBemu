@@ -1,38 +1,23 @@
 #include <cpu.h>
 #include <emu.h>
 #include <stack.h>
+
 //process instructions
 void cpu_set_flags(cpu_context *ctx, int8_t z, int8_t n, int8_t h, int8_t c) {
     if (z != -1) {
-        if(z){
-            ctx->regs.f |= (1<<7);
-        }else{
-            ctx->regs.f &= ~(1<<7);
-        }
+        BIT_SET(ctx->regs.f, 7, z);
     }
 
     if (n != -1) {
-        if(n){
-            ctx->regs.f |= (1<<6);
-        }else{
-            ctx->regs.f &= ~(1<<6);
-        }
+        BIT_SET(ctx->regs.f, 6, n);
     }
 
     if (h != -1) {
-        if(h){
-            ctx->regs.f |= (1<<5);
-        }else{
-            ctx->regs.f &= ~(1<<5);
-        }
+        BIT_SET(ctx->regs.f, 5, h);
     }
 
     if (c != -1) {
-        if(c){
-            ctx->regs.f |= (1<<4);
-        }else{
-            ctx->regs.f &= ~(1<<4);
-        }
+        BIT_SET(ctx->regs.f, 4, c);
     }
 }
 static void proc_none(cpu_context *ctx) {

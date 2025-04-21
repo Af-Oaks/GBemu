@@ -6,6 +6,7 @@ using Gameboy Emulator Development from https://github.com/rockytriton/LLD_gbemu
 
 test comand in dir /build:
 cd ..
+cmake -S ..
 make
 cd GBemu
 ./gbemu ../../roms/01-special.gb

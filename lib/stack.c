@@ -12,9 +12,10 @@ void stk_push_16(u16 value){
 }
 
 u8 stk_pop(){
-    cpu_get_regs()->sp++;
-    return (cpu_get_regs()->sp);
+    u16 val = cpu_get_regs()->sp++;
+    return bus_read(val);
 }
+
 u16 stk_pop_16(){
     u16 low = stk_pop();
     u16 hi = stk_pop();
