@@ -3,6 +3,7 @@
 #include <cart.h>
 #include <cpu.h>
 #include <ui.h>
+#include <lcd.h>
 #include <dma.h>
 
 #include <pthread.h>
@@ -28,6 +29,7 @@ emu_context *emu_get_context() {
 
 void *cpu_run(void *p){
     cpu_init();
+    lcd_init();
     ctx.running = true;
     ctx.paused = false;
     ctx.close = false;

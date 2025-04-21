@@ -27,15 +27,9 @@ u8 io_read(u16 address){
     else if(address >= 0xFF10 && address <= 0xFF3F){
         return 0;//TODO sound
     }
-    else if(address == 0xFF44){//
-        return ly++;
+    else if(address >= 0xFF40 && address <= 0xFF4B){
+        return read_lcd_reg(address);//TODO LCD
     }
-    // else if(address >= 0xFF40 && address <= 0xFF4B){
-    //     return ;//TODO LCD
-    // }
-    // else if(address == 0xFF4C){
-    //     return;//TODO LCD
-    // }
     // else if(address == 0xFF50){
     //     return;//TODO: boot rom
     // }
@@ -74,17 +68,9 @@ void io_write(u16 address, u8 value){
     else if(address >= 0xFF10 && address <= 0xFF3F){
         return;//TODO sound
     }
-    else if (address == 0xFF46) {
-        dma_start(value);
-        printf("DMA START!\n");
-        return;
+    else if(address >= 0xFF40 && address <= 0xFF4B){
+        return write_lcd_reg(address,value);//TODO LCD
     }
-    // else if(address >= 0xFF40 && address <= 0xFF4B){
-    //     return;//TODO LCD
-    // }
-    // else if(address == 0xFF4C){
-    //     return;//TODO LCD
-    // }
     // else if(address == 0xFF50){
     //     return;//TODO: boot rom
     // }
@@ -98,5 +84,5 @@ void io_write(u16 address, u8 value){
     //     return;//TODO: WRAM BANK SELECT
     // }
 
-    // NO_IMPLFROM("UNSUPPORTED IO_write addres!\n");
+    NO_IMPLFROM("UNSUPPORTED IO_write addres!\n");
 }
