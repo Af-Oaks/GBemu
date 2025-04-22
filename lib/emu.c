@@ -5,6 +5,7 @@
 #include <ui.h>
 #include <lcd.h>
 #include <dma.h>
+#include <timer.h>
 
 #include <pthread.h>
 #include <unistd.h>
@@ -89,7 +90,7 @@ void emu_cycles(int cpu_cycles){
     for(int x=0;x<cpu_cycles;x++){
         for(int y=0;y<4;y++){
             ctx.ticks++;
-            cpu_tick();
+            timer_tick();
         }
         dma_tick();
     }

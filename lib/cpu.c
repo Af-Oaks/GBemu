@@ -2,6 +2,7 @@
 #include <bus.h>
 #include <emu.h>
 #include <interrupts.h>
+#include <timer.h>
 
 cpu_context ctx = {0};
 
@@ -13,7 +14,10 @@ void cpu_init() {
     *((short *)&ctx.regs.d) = 0xD800;
     *((short *)&ctx.regs.h) = 0x4D01;
     ctx.ie_reg =0;
+    ctx.int_flags=0;
     ctx.IME =false;
+    ctx.enabling_ime =false;
+    timer_init();
 }
 
 static void fetch_instuction(){
@@ -51,8 +55,8 @@ bool cpu_step() {
         char inst[16];
         inst_to_str(&ctx, inst);
 
-        printf("%08lX - %04X: %-12s (%02X %02X %02X) A: %02X F: %s BC: %02X%02X DE: %02X%02X HL: %02X%02X\n", 
-            emu_get_context()->ticks,
+        printf("%08lX(%04X (%04X)) - %04X: %-12s (%02X %02X %02X) A: %02X F: %s BC: %02X%02X DE: %02X%02X HL: %02X%02X\n", 
+            emu_get_context()->ticks,timer_get_context()->DIV,timer_get_context()->TIMA,
             pc, inst, ctx.current_opcode,
             bus_read(pc + 1), bus_read(pc + 2), ctx.regs.a, flags, ctx.regs.b, ctx.regs.c,
             ctx.regs.d, ctx.regs.e, ctx.regs.h, ctx.regs.l);
@@ -95,6 +99,6 @@ void cpu_set_ie_reg(u8 value){
     ctx.ie_reg = value;
 }
 
-void cpu_tick(){
-
+void cpu_request_interrupt(interrupt_type t) {
+    ctx.int_flags |= t;
 }

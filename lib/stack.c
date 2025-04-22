@@ -5,15 +5,12 @@ void stk_push(u8 value){
     bus_write(cpu_get_regs()->sp,value);
 }
 void stk_push_16(u16 value){
-    u8 hi = (value >> 8 ) & 0xFF;
-    u8 low = value & 0xFF;
-    stk_push(hi);
-    stk_push(low);
+    stk_push((value >> 8 ) & 0xFF);
+    stk_push(value & 0xFF);
 }
 
 u8 stk_pop(){
-    u16 val = cpu_get_regs()->sp++;
-    return bus_read(val);
+    return bus_read(cpu_get_regs()->sp++);
 }
 
 u16 stk_pop_16(){

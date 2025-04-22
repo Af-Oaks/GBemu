@@ -27,7 +27,7 @@ void lcd_init(){
     ctx.ly = 0x00;
     ctx.lyc = 0x00;
     ctx.dma = 0x00;
-    ctx.bgp = 0xFF;
+    ctx.bgp = 0xFC;
     ctx.obp0 = 0xFF;
     ctx.obp1 = 0xFF;
     ctx.wy = 0x00;
@@ -38,7 +38,7 @@ lcd_context* get_lcd_context(){
     return &ctx;
 }
 bool is_ppu_lcd_on(){
-    return ctx.lcdc & 0b10000000;
+    return (ctx.lcdc == 0b10000000);
 }
 
 u8 read_lcd_reg(u16 address){
