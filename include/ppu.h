@@ -70,6 +70,7 @@ typedef struct
 
 typedef struct 
 {
+    u8 line_ticks;
     oam_entry oam_ram[0x40];
     u8 vram[0x2000];
 }ppu_context;

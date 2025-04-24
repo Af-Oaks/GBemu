@@ -5,30 +5,28 @@ static ppu_context ctx;
 
 void ppu_init() {
 
+    lcd_init();
+    LCDS_MODE_SET(MODE_OAM);
+
+    memset(ctx.oam_ram, 0, sizeof(ctx.oam_ram));
 }
 
 void ppu_tick() {
+    ctx.line_ticks++;
 
-}
-
-void ppu_render(){
-    for(int x=0;x<144;x++){//horizontal mode
-        //mode 2 OAM scan
-    
-        //mode 3 Drawing pixel
-        for(int x=0;x<160;x++){
-
-        }
-
-        //mode 0 horizontal blank
-    }
-
-    for(int x=0;x<10;x++){//vertical mode?
-        //mode 1
-        for(int x=0;x<160;x++){
-            
-        }
-
+    switch(LCDS_MODE) {
+    case MODE_OAM:
+        ppu_mode_oam();
+        break;
+    case MODE_XFER:
+        ppu_mode_xfer();
+        break;
+    case MODE_VBLANK:
+        ppu_mode_vblank();
+        break;
+    case MODE_HBLANK:
+        ppu_mode_hblank();
+        break;
     }
 }
 
