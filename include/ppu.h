@@ -78,6 +78,7 @@ typedef struct
 
 void ppu_init();
 void ppu_tick();
+void ppu_render();
 void ppu_vram_write(u16 address, u8 value);
 u8 ppu_vram_read(u16 address);
 void ppu_oam_write(u16 address, u8 value);
